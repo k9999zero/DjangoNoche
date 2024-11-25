@@ -1,0 +1,44 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <!-- Campo para email -->
+    <div>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Campo para password -->
+    <div>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {% if form.password.errors %}
+            <div class="error">{{ form.password.errors }}</div>
+        {% endif %}
+    </div>
+
+    <button type="submit">Iniciar Sesión</button>
+</form>
+
+<!-- Mostrar mensajes de error generales -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html >
