@@ -10,7 +10,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import EmailLoginForm
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
-from .serializers import LoginSerializer
+
+from .models import Product, Category
+from .serializers import LoginSerializer, ProductSerializer, CategorySerializer
 #rest
 from rest_framework import permissions, viewsets, status
 
@@ -18,15 +20,52 @@ from tutorial.quickstart.serializers import GroupSerializer, UserSerializer
 
 from .utils import custom_response
 
-'''
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-'''
+class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    queryset = Category.objects.all()  # Obtener todos los productos
+    serializer_class = CategorySerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    queryset = Product.objects.select_related('category')
+    serializer_class = ProductSerializer
+
+    # Sobrescribir el método create para personalizar la creación
+    def create(self, request, *args, **kwargs):
+        # Llamar al método padre para la creación normal
+        response = super().create(request, *args, **kwargs)
+
+        # Personalizar la respuesta si es necesario
+        response.data['message'] = 'Producto creado exitosamente'
+
+        return response
+
+    # Sobrescribir el método update para personalizar la actualización
+    def update(self, request, *args, **kwargs):
+        # Aquí puedes añadir lógica personalizada antes de la actualización
+        response = super().update(request, *args, **kwargs)
+        response.data['message'] = 'Producto actualizado exitosamente'
+        return response
+
+    # Sobrescribir el método destroy para personalizar la eliminación
+    def destroy(self, request, *args, **kwargs):
+        super().destroy(request, *args, **kwargs)
+        return custom_response(True, {
+            'message': "Datos eliminados"
+        }, 200)
+
+    # Sobrescribir el método list para personalizar la lista
+    def list(self, request, *args, **kwargs):
+
+        response = super().list(request, *args, **kwargs)
+        # Aseguramos que estamos trabajando con un diccionario
+        response.data = {
+            "message": "Lista de productos obtenida con éxito",
+            "products": response.data  # Añadimos la lista de productos aquí
+        }
+        return response
+
 class LoginView(APIView):
     permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
@@ -39,7 +78,7 @@ class LoginView(APIView):
             access = str(refresh.access_token)
 
             # Respuesta personalizada
-            return Response({
+            return custom_response(True,{
                 'refresh': str(refresh),
                 'access': access,
                 'user': {
@@ -47,7 +86,7 @@ class LoginView(APIView):
                     'email': user.email,
                     'username': user.username,
                 }
-            }, status=status.HTTP_200_OK)
+            }, 200)
 
         return custom_response(
             success=False,

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'appPrueba',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',  # Busca en la carpeta 'static' en la raíz de tu proyecto
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Define la carpeta 'media' en el directorio base
+
+# URL base para acceder a los archivos subidos (archivos estáticos)
+MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

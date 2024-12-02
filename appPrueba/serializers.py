@@ -3,12 +3,21 @@ from django.core.validators import EmailValidator
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from .models import Product
+from .models import Product,Category
 from django.contrib.auth import authenticate
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']  # Incluir solo los campos que necesitas de Category
+
 class ProductSerializer(serializers.ModelSerializer):
+    #category = CategorySerializer()  # Incluir la categoría como un objeto anidado (opcional)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+
     class Meta:
         model = Product
-        fields = '__all__'  # Incluye todos los campos del modelo
+        fields = ['id', 'category', 'name', 'price', 'image']
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True, error_messages= {
