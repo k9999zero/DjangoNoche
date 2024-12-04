@@ -60,11 +60,14 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         response = super().list(request, *args, **kwargs)
         # Aseguramos que estamos trabajando con un diccionario
+        '''
         response.data = {
             "message": "Lista de productos obtenida con éxito",
             "products": response.data  # Añadimos la lista de productos aquí
         }
         return response
+        '''
+        return custom_response(True, response.data, 200)
 
 class LoginView(APIView):
     permission_classes = [AllowAny]

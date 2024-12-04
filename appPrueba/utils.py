@@ -15,6 +15,7 @@ def custom_response(success, body=None, code=status.HTTP_200_OK):
         Response: Objeto Response con el formato deseado.
     """
     return Response({
+        "code": code,
         "success": success,
         "body": body if body else {}
     }, status=code)
