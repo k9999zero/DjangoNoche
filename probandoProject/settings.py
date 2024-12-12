@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'probandoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangotest',
+        'NAME': 'djangoTecnico',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',  # Use '127.0.0.1' or the IP address of the MySQL server
