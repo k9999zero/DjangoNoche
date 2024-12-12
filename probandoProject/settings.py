@@ -147,6 +147,8 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Define la carpeta 'media' en el directorio base
 
+STATIC_Dir = os.path.join(BASE_DIR, 'media')
+
 # URL base para acceder a los archivos subidos (archivos estáticos)
 MEDIA_URL = '/media/'
 # Default primary key field type
@@ -158,3 +160,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'probandoProject.settings')
 
 # Inicializa Django
 django.setup()
+STATICFILES_DIRS = [STATIC_Dir, ]
