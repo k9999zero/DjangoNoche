@@ -11,14 +11,18 @@ from .forms import EmailLoginForm
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 
+
+
 from .models import Product, Category
-from .serializers import LoginSerializer, ProductSerializer, CategorySerializer
+from .serializers import LoginSerializer, ProductSerializer, CategorySerializer, DestinationSerializer, CommentSerializer, UserSignupSerializer
 #rest
 from rest_framework import permissions, viewsets, status
 
 from tutorial.quickstart.serializers import GroupSerializer, UserSerializer
 
 from .utils import custom_response
+
+from .models import Destination, Comment
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -131,3 +135,31 @@ class CustomLoginView(View):
             messages.error(request, "Formulario inválido.")
 
         return render(request, self.template_name, {'form': form})
+
+
+
+
+class DestinationViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    queryset = Destination.objects.all()
+    serializer_class = DestinationSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+
+
+class UserSignupView(APIView):
+    """
+    Endpoint para registrar nuevos usuarios.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Usuario creado exitosamente."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

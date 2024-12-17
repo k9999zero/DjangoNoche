@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_extensions',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework.authtoken',  # Habilita Token Authentication
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 MIDDLEWARE = [
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'probandoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangotest',
+        'NAME': 'dbturismo',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',  # Use '127.0.0.1' or the IP address of the MySQL server
@@ -102,6 +103,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
     )
 }
 
