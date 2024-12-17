@@ -6,23 +6,21 @@ from django.contrib import messages
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from .forms import EmailLoginForm
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
-
-
-
 from .models import Product, Category
 from .serializers import LoginSerializer, ProductSerializer, CategorySerializer, DestinationSerializer, CommentSerializer, UserSignupSerializer
 #rest
 from rest_framework import permissions, viewsets, status
-
 from tutorial.quickstart.serializers import GroupSerializer, UserSerializer
-
 from .utils import custom_response
-
 from .models import Destination, Comment
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Comment, Destination
+from .serializers import CommentSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -145,6 +143,7 @@ class DestinationViewSet(viewsets.ModelViewSet):
     serializer_class = DestinationSerializer
 
 class CommentViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -163,3 +162,8 @@ class UserSignupView(APIView):
             serializer.save()
             return Response({"message": "Usuario creado exitosamente."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
