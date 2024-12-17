@@ -7,7 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         username = 'GojanDed'
         password = '75987474_GojanDed'
-        email = 'gojanded@correo.com'
+        email = 'gojanded@gmail.com'
 
         # Crea el usuario
         user, created = User.objects.get_or_create(
