@@ -12,7 +12,10 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, blank=True)
     price = models.IntegerField()
-    image = models.ImageField(upload_to='product_images/')
+    calidad = models.CharField(max_length=200, blank=True)
+    stock = models.CharField(max_length=200, blank=True)
+    descripcion = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to='product_images/')  # Corregida la indentación
 
     def __str__(self):
         return self.name

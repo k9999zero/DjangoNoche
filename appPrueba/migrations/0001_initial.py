@@ -24,6 +24,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
+                ('calidad', models.CharField(max_length=200)),
+                ('stock', models.CharField(max_length=200)),
+                ('descripcion', models.CharField(max_length=200)),
                 ('price', models.IntegerField(default=0)),
                 ('image', models.ImageField(upload_to='product_images/')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appPrueba.category')),
