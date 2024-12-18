@@ -5,6 +5,8 @@ from rest_framework.exceptions import ValidationError
 
 from .models import Product,Category
 from django.contrib.auth import authenticate
+
+from django.contrib.auth import get_user_model
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -54,3 +56,9 @@ class LoginSerializer(serializers.Serializer):
         # Añadir el usuario al contexto para usarlo más adelante
         data['user'] = user
         return data
+
+User  = get_user_model()
+class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ['id', 'username', 'email', 'first_name', 'last_name']  # Add any other fields you need

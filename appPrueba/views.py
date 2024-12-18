@@ -16,9 +16,19 @@ from .serializers import LoginSerializer, ProductSerializer, CategorySerializer
 #rest
 from rest_framework import permissions, viewsets, status
 
-from tutorial.quickstart.serializers import GroupSerializer, UserSerializer
+from tutorial.quickstart.serializers import GroupSerializer
 
 from .utils import custom_response
+
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from rest_framework import generics
+from rest_framework import serializers
+from .serializers import UserSerializer
+from django.contrib.auth import get_user_model
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -131,3 +141,20 @@ class CustomLoginView(View):
             messages.error(request, "Formulario inválido.")
 
         return render(request, self.template_name, {'form': form})
+
+User  = get_user_model()
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # GET: Listar todos los usuarios
+    # POST: Crear un nuevo usuario
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # GET: Obtener un usuario específico
+    # PUT: Actualizar un usuario específico
+    # DELETE: Eliminar un usuario específico

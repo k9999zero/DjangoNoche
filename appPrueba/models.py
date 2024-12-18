@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+from rest_framework import serializers
 
 class Category(models.Model):
     name = models.CharField(max_length=200, blank=False)
