@@ -31,6 +31,7 @@ class Destination(models.Model):
         return self.name
 
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relación con el usuario
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='comments')  # Relación con el destino
